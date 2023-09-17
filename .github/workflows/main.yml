@@ -17,9 +17,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
       
-    # Step to set up QEMU for multi-architecture builds
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v3
+    # # Step to set up QEMU for multi-architecture builds
+    # - name: Set up QEMU
+    #   uses: docker/setup-qemu-action@v3
       
     # Step to set up Docker Buildx for extended build capabilities
     - name: Set up Docker Buildx
