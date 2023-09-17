@@ -14,9 +14,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build --platform linux/arm64 . --file Dockerfile --tag 0xaccretion/cardano-node-1-35-7:${{ github.sha }}
-
+    
     - name: Docker Login
       # You may pin to the exact commit or the version.
       # uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d
@@ -27,5 +25,17 @@ jobs:
         # Password or personal access token used to log against the Docker registry
         password: ${{ secrets.DOCKER_HUB_PASSWORD }}
         
-    - name: Push the Docker image
-      run: docker push 0xaccretion/spectrum-batcher:${{ github.sha }}
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v5.0.0
+      with:
+        context: .
+        file: Dockerfile
+        platforms: linux/arm64
+        tags: 0xaccretion/cardano-node-1-35-7:${{ github.sha }}
+        push: true
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        secrets: |
+          DOCKER_HUB_USERNAME=${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_HUB_PASSWORD=${{ secrets.DOCKER_HUB_PASSWORD }}
+
+    
