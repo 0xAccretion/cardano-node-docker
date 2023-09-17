@@ -10,35 +10,40 @@ jobs:
 
   build:
 
-    runs-on: buildjet-4vcpu-ubuntu-2204-arm
+    runs-on: ubuntu-latest
     
     steps:
-    # Step to checkout the source code
-    - name: Checkout
-      uses: actions/checkout@v4
-      
-    # # Step to set up QEMU for multi-architecture builds
-    # - name: Set up QEMU
-    #   uses: docker/setup-qemu-action@v3
-      
-    # Step to set up Docker Buildx for extended build capabilities
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-      
-    # Step to log in to Docker Hub
-    - name: Login to Docker Hub
-      uses: docker/login-action@v3
+    
+    - uses: Azure/login@v1
       with:
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+        creds: '{"clientId":"${{ secrets.AZURE_RBAC_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_RBAC_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_RBAC_CLIENT_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_RBAC_CLIENT_TENANT_ID }}"}'
+    
+    # # Step to checkout the source code
+    # - name: Checkout
+    #   uses: actions/checkout@v4
       
-    # Step to build and push your Docker image
-    - name: Build and push
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        platforms: linux/arm64
-        push: true
-        tags: 0xaccretion/cardano-node-arm64-1-35-7:${{ github.sha }}
+    # # # Step to set up QEMU for multi-architecture builds
+    # # - name: Set up QEMU
+    # #   uses: docker/setup-qemu-action@v3
+      
+    # # Step to set up Docker Buildx for extended build capabilities
+    # - name: Set up Docker Buildx
+    #   uses: docker/setup-buildx-action@v3
+      
+    # # Step to log in to Docker Hub
+    # - name: Login to Docker Hub
+    #   uses: docker/login-action@v3
+    #   with:
+    #     username: ${{ secrets.DOCKER_HUB_USERNAME }}
+    #     password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      
+    # # Step to build and push your Docker image
+    # - name: Build and push
+    #   uses: docker/build-push-action@v5
+    #   with:
+    #     context: .
+    #     platforms: linux/arm64
+    #     push: true
+    #     tags: 0xaccretion/cardano-node-arm64-1-35-7:${{ github.sha }}
 
     
