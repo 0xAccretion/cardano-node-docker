@@ -1,8 +1,10 @@
 # Cardano Node Docker Repository
 
-![Build status badge](https://github.com/0xAccretion/cardano-node-docker/actions/workflows/main.yml/badge.svg)
-![Docker Pulls](https://img.shields.io/docker/pulls/0xaccretion/cardano-node-arm64-1-35-7)
-![License](https://img.shields.io/github/license/0xAccretion/cardano-node-docker)
+[![Build status badge](https://github.com/0xAccretion/cardano-node-docker/actions/workflows/main.yml/badge.svg)](https://github.com/0xAccretion/cardano-node-docker/actions/workflows/main.yml)
+[![Docker Pulls](https://img.shields.io/docker/pulls/0xaccretion/cardano-node-arm64-1-35-7)](https://hub.docker.com/r/0xaccretion/cardano-node-arm64-1-35-7)
+[![License](https://img.shields.io/github/license/0xAccretion/cardano-node-docker)](https://github.com/0xAccretion/cardano-node-docker/blob/main/LICENSE.md)
+
+
 
 This repository contains Dockerfiles and scripts for running a Cardano node on ARM64 architectures. It aims to make the setup and operation of Cardano nodes as seamless as possible.
 
