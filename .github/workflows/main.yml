@@ -73,7 +73,9 @@ jobs:
           context: .
           platforms: linux/arm64
           push: true
-          tags: 0xaccretion/cardano-node-arm64-1-35-7:${{ github.sha }}
+          tags: |
+            0xaccretion/cardano-node-arm64-1-35-7:${{ github.sha }}
+            0xaccretion/cardano-node-arm64-1-35-7:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
     
