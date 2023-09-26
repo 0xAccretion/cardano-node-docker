@@ -53,6 +53,7 @@ RUN cabal build all
 RUN mkdir -p ~/.local/bin
 RUN cp -p "$(./scripts/bin-path.sh cardano-node)" ~/.local/bin/
 RUN cp -p "$(./scripts/bin-path.sh cardano-cli)" ~/.local/bin/
+RUN cp -p "$(./scripts/bin-path.sh cardano-submit-api)" ~/.local/bin/
 
 FROM ubuntu:22.04 AS cardano-node-slim
 ARG DEBIAN_FRONTEND=noninteractive
@@ -69,6 +70,7 @@ COPY --from=cardano-node /usr/local/lib/pkgconfig/ /usr/local/lib/pkgconfig/
 RUN ldconfig
 COPY --from=cardano-node /root/.local/bin/cardano-node /usr/local/bin/cardano-node
 COPY --from=cardano-node /root/.local/bin/cardano-cli /usr/local/bin/cardano-cli
+COPY --from=cardano-node /root/.local/bin/cardano-submit-api /usr/local/bin/cardano-submit-api
 ADD cardano-entrypoint /usr/local/bin
 COPY run-network-config /run-network-config
 ENTRYPOINT [ "entrypoint" ]

@@ -1,0 +1,50 @@
+#!/bin/env bash
+
+# https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail
+set -eo pipefail
+
+echo "Running the Cardano submit API ..."
+
+# Remove the first argument ("submit-api")
+shift
+
+# Define a few defaults
+API_CONFIG_PATH="/config/submit-api-config.json"
+API_SOCKET_PATH="/ipc/node.socket"
+API_LISTEN_ADDRESS="0.0.0.0"
+API_PORT="8090"
+
+# Override default values with explicit options
+options=($@)
+
+for i in "${!options[@]}"
+do
+    j=$((i + 1))
+    key=${options[i]}
+    val=${options[j]}
+    found=false
+
+    case ${key} in
+      --config) API_CONFIG_PATH=${val}; found=true;;
+      --socket-path) API_SOCKET_PATH=${val}; found=true;;
+      --listen-address) API_LISTEN_ADDRESS=${val}; found=true;;
+      --port) API_PORT=${val}; found=true;;
+    esac
+
+    if [[ $found == true ]]; then
+      options[i]="";
+      options[j]="";
+    fi
+done
+
+# Run the submit API
+effopts=(--config $API_CONFIG_PATH \
+    --mainnet \
+    --socket-path $API_SOCKET_PATH \
+    --listen-address $API_LISTEN_ADDRESS \
+    --port $API_PORT)
+
+effopts+=(${options[@]})
+
+echo "cardano-submit-api ${effopts[@]}"
+exec /usr/local/bin/cardano-submit-api ${effopts[@]}
