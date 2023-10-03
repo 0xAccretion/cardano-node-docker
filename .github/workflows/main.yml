@@ -65,7 +65,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
         
       # Step to build and push your Docker image
-      - name: Build and push
+      - name: Build and push 1.35.7
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -74,6 +74,20 @@ jobs:
           tags: |
             0xaccretion/cardano-node-arm64-1-35-7:${{ github.sha }}
             0xaccretion/cardano-node-arm64-1-35-7:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      
+      - name: Build and push 8.1.2
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/arm64
+          push: true
+          build-args: |
+            git_commit_id=8.1.2
+          tags: |
+            0xaccretion/cardano-node-arm64-8.1.2:${{ github.sha }}
+            0xaccretion/cardano-node-arm64-8.1.2:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
     
